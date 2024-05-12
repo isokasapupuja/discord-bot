@@ -1,10 +1,8 @@
-version: "3.8"
-
 services:
-  discord-bot-pupu:
+  discord-bot:
     build: .
     ports:
       - "3000:3000"
     volumes:
-      - ./.env:/app/.env:ro
+      - .env:/app/.env:ro
     restart: unless-stopped

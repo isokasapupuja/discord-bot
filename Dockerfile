@@ -1,9 +1,7 @@
-FROM node:alpine AS builder
+FROM node:alpine
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-FROM node:alpine
-COPY --from=builder .env .dockerignore
-COPY src/ .
+COPY src/ src/
 EXPOSE 3000
 CMD [ "node", "src/index.js"]
