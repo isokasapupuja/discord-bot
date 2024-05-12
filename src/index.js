@@ -18,7 +18,7 @@ client.on('ready', (c) => {
 });
 
 const roll = (max = 99) => {
-    return `${Math.floor(Math.random()*(max+1))}`;
+    return `${Math.floor(Math.random()*(max-(-1)))}`;
 } 
 
 client.on('messageCreate', (msg) => {
@@ -33,9 +33,11 @@ client.on('messageCreate', (msg) => {
         }
         switch (command) {
             case 'roll':
-                let num = roll(max)
-                console.log(`${msg.author} rolled ${num} in range (0 - ${max})`)
-                msg.reply(num)
+                if(!isNaN(max)){
+                    let num = roll(max)
+                    console.log(`${msg.author} rolled ${num} in range (0 - ${max})`)
+                    msg.reply(num)
+                }
                 break;
             default:
                 console.log(`${command} is not a valid command`)
