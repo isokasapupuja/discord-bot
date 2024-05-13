@@ -1,4 +1,4 @@
-const { Client, IntentsBitField} = require('discord.js');
+const { Client, IntentsBitField } = require('discord.js');
 require('dotenv').config()
 
 const config = process.env
@@ -18,33 +18,37 @@ client.on('ready', (c) => {
 });
 
 const roll = (max = 99) => {
-    return `${Math.floor(Math.random()*(max-(-1)))}`;
-} 
+    return `${Math.floor(Math.random() * (max - (-1)))}`;
+}
 
 client.on('messageCreate', (msg) => {
     let max = 99
     const text = msg.content
-    if (text.startsWith(prefix)){
-        let command = text.slice(prefix.length)
-        if (command.includes(" ")){
-            const parts = command.split(" ");
-            command = parts[0]
-            max = parts[1]
+    try {
+        if (text.startsWith(prefix)) {
+            let command = text.slice(prefix.length)
+            if (command.includes(" ")) {
+                const parts = command.split(" ");
+                command = parts[0]
+                max = parseInt(parts[1])
+            }
+            switch (command) {
+                case 'roll':
+                    if (!isNaN(max)) {
+                        let num = roll(max)
+                        console.log(`${msg.author} rolled ${num} in range (0 - ${max})`)
+                        msg.reply(num)
+                    }
+                    break;
+                default:
+                    console.log(`${command} is not a valid command`)
+            }
+
+        } else if (text.toLowerCase().includes('tuplilla')) {
+            msg.reply(roll())
         }
-        switch (command) {
-            case 'roll':
-                if(!isNaN(max)){
-                    let num = roll(max)
-                    console.log(`${msg.author} rolled ${num} in range (0 - ${max})`)
-                    msg.reply(num)
-                }
-                break;
-            default:
-                console.log(`${command} is not a valid command`)
-        }
-        
-    } else if (text.toLowerCase().includes('tuplilla')) {
-        msg.reply(roll())
+    } catch (error) {
+        console.error('Error processing message:', error)
     }
 })
 
