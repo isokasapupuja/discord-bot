@@ -18,7 +18,9 @@ client.on('ready', (c) => {
 });
 
 const roll = (max = 99) => {
-    return `${Math.floor(Math.random() * (max - (-1)))}`;
+    const n = max.toString().length
+    const i = Math.floor(Math.random() * (max + 1))
+    return ("" + i).padStart(n, '0');
 }
 
 client.on('messageCreate', (msg) => {
